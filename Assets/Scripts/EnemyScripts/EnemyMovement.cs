@@ -4,48 +4,49 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    //[SerializeField] Transform playerTarget;
-    GameObject playerTarget;
+    
+
+    //GameObject playerTarget;
     Animator animator;
+    AnimationClip currentAnimation;
+    Rigidbody enemyRB;
+
     [SerializeField] AnimationClip chasingAnimation;
-    [SerializeField] AnimationClip attackAnimation;
     [SerializeField] float speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerTarget = GameObject.FindWithTag("Player");
+        //playerTarget = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
+        enemyRB = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChasePlayerTarget();
+        //ChasePlayerTarget();
     }
 
-    private void ChasePlayerTarget()
+    public void ChasePlayerTarget(GameObject playerTarget, float chaseSpeedValue)
     {
         Vector3 newPosition = playerTarget.transform.position;
         newPosition.y = transform.position.y;
         transform.LookAt(newPosition);
 
-        if(Vector3.Distance(transform.position, playerTarget.transform.position) > 2f)
-        {
-            transform.position -= (transform.position - playerTarget.transform.position).normalized * speed * Time.deltaTime;
+      //enemyRB.AddForce((enemyRB.transform.position + playerTarget.transform.position).normalized * speed * Time.deltaTime);
+        transform.position -= (transform.position - playerTarget.transform.position).normalized * chaseSpeedValue * Time.deltaTime;
+      //AnimationsManager.instance.PlayAnimation(animator, chasingAnimation, .1f);
 
-            AnimationsManager.instance.PlayAnimation(animator, chasingAnimation, .1f);
-        }
-        if(Vector3.Distance(transform.position, playerTarget.transform.position) <= 2f)
-        {
-            //transform.position -= (transform.position - playerTarget.transform.position).normalized * 0 * Time.deltaTime;
-
-            AnimationsManager.instance.PlayAnimation(animator, attackAnimation, .1f);
-        }
         /*if (ScoreTracker.scoreCount > 20)
         {
             speed = 20;
         }
         animator.SetBool("Moving", true);*/
+    }
+
+    public void SetEnemyMovementAnimation()
+    {
+        AnimationsManager.instance.PlayAnimation(animator, chasingAnimation, .25f);
     }
 }

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c68784137afd74db371003580dc4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootVelocity: 20
+  shootVelocity: 40
 --- !u!65 &3093446659742346668
 BoxCollider:
   m_ObjectHideFlags: 0

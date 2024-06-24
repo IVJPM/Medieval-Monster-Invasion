@@ -14,21 +14,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float upDownRotation;
     [SerializeField] Vector2 playerLookRotation;
     [SerializeField] Quaternion playerRotationAngles;
+    [SerializeField] float movementSpeed;
+    [SerializeField] float gravityModifier;
+
+
+    [Header("Camera Inputs")]
+    [SerializeField] float upDownLookAngle;
+    [SerializeField] float leftRightLookAngle;
     [SerializeField] float maxLookAngle;
     [SerializeField] float minLookAngle;
     [SerializeField] float verticalLookAngle;
 
-
-    [Header("Camera Inputs")]
-    private float upDownLookAngle;
-    private float leftRightLookAngle;
-
     private Rigidbody playerRB;
     private Animator playerAnimator;
 
-    [SerializeField] float gravityModifier;
-    [SerializeField] float movementSpeed;
-    [SerializeField] bool isGrounded;
 
 
     void Start()
@@ -88,21 +87,5 @@ public class PlayerMovement : MonoBehaviour
         playerRotationAngles = Quaternion.Euler(leftRightLookAngle, upDownLookAngle, 0);
         playerRotationAngles.Normalize();
         playerRB.MoveRotation(playerRotationAngles);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.collider.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
     }
 }

@@ -8,9 +8,16 @@ public class ShootBow : MonoBehaviour
 {
     public static event EventHandler OnBowShot;
 
+    [Header("Animation Clips")]
     [SerializeField] AnimationClip drawArrowClip;
     [SerializeField] AnimationClip fireArrowClip;
     [SerializeField] AnimationClip returnToIdleClip;
+
+    [Header("Audio Clips")]
+    [SerializeField] AudioClip drawBowStringSFX;
+    [SerializeField] AudioClip shootArrowSFX;
+
+    [Header("Misc(Organize Later)")]
     [SerializeField] GameObject bowString;
     [SerializeField] Transform rightHandPos;
     [SerializeField] Transform arrowSpawnPoint;
@@ -18,9 +25,6 @@ public class ShootBow : MonoBehaviour
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] List<GameObject> arrowPrefabArray = new List<GameObject>();
 
-    public float rotateArrow;
-
-    private bool firingArrow;
     private float drawBowStringTimer;
     GameObject arrow;
 
@@ -29,10 +33,12 @@ public class ShootBow : MonoBehaviour
     Vector3 fireArrowStringPos;
     Vector3 arrowPosition;
     private Animator playerAnimator;
+    private AudioSource playerAudioSource;
 
     void Start()
     {
         playerAnimator = GetComponentInChildren<Animator>();
+        playerAudioSource = GetComponent<AudioSource>();
 
         bowStringPos = bowString.transform.localPosition;
         fireArrowStringPos = rightHandPos.localPosition;
@@ -40,7 +46,6 @@ public class ShootBow : MonoBehaviour
         fireArrowStringPos.z += .025f;
         fireArrowStringPos.y -= .0575f;
 
-        firingArrow = false;
         drawBowStringTimer = .1f;
 
         arrow = arrowPrefab;
@@ -73,10 +78,16 @@ public class ShootBow : MonoBehaviour
                 if (drawBowStringSmoothing >= .7f)
                 {
                     drawBowStringTimer += Time.deltaTime;
+
+                    //SoundFXManager.Instance.DrawBowSound(playerAudioSource, drawBowStringSFX, 1f);
                     bowString.transform.localPosition = Vector3.Lerp(bowStringPos, -fireArrowStringPos / 2.5f, drawBowStringTimer * 3.5f);
                 }
             }
-           
+            if(drawBowStringSmoothing < .01f)
+            {
+                SoundFXManager.Instance.DrawBowSound(playerAudioSource, drawBowStringSFX, 1f);
+            }
+
             else if(drawBowStringSmoothing >= 1.5f)
             {
                 drawBowStringSmoothing = 1.5f;
@@ -86,6 +97,7 @@ public class ShootBow : MonoBehaviour
         {
             OnBowShot?.Invoke(this, EventArgs.Empty);
 
+            SoundFXManager.Instance.ShootBowSound(playerAudioSource, shootArrowSFX, 1f);
             AnimationsManager.instance.PlayAnimation(playerAnimator, fireArrowClip, .1f);
 
             arrowPrefabArray.Remove(arrow);

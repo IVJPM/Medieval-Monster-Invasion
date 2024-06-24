@@ -56,7 +56,6 @@ public class ProjectilesManagement : MonoBehaviour
         {
             Destroy(other.gameObject);
             Destroy(gameObject);
-            Debug.Log(other);
         }
     }
 }
