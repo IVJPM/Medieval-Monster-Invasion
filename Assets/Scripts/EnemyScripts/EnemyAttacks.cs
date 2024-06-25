@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyAttacks : MonoBehaviour
 {
     [SerializeField] AnimationClip attackAnimation;
+    [SerializeField] SphereCollider enemyAttackCollider;
+    [SerializeField] int enemyDamage;
     
     GameObject playerTarget;
     Animator animator;
@@ -19,19 +21,26 @@ public class EnemyAttacks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //AttackPlayer();
-    }
-
-    private void AttackPlayer()
-    {
-        if(Vector3.Distance(transform.position, playerTarget.transform.position) <= 2.5f)
-        {
-            AnimationsManager.instance.PlayAnimation(animator, attackAnimation, .1f);
-        }
+        
     }
 
     public void SetEnemyMovementAnimation()
     {
         AnimationsManager.instance.PlayAnimation(animator, attackAnimation, .25f);
+    }
+
+    public int EnemyAttackDamage()
+    {
+        return enemyDamage;
+    }
+
+    private void EnableEnemyAttackCollider()
+    {
+        enemyAttackCollider.enabled = true;
+    }
+
+    private void DisableEnemyAttackCollider()
+    {
+        enemyAttackCollider.enabled = false;
     }
 }

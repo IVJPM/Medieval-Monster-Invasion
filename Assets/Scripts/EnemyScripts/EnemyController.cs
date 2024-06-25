@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, playerTarget.transform.position) > 2.5f)
+        if (Vector3.Distance(transform.position, playerTarget.transform.position) > 1.75f)
         {
             isInAttackRange = false;
         }

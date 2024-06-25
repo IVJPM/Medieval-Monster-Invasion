@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackAnimation: {fileID: 7400000, guid: 3c437600a464a5b488a5db66fbd68e03, type: 2}
+  enemyDamage: 4
 --- !u!136 &2954541958725618189
 CapsuleCollider:
   m_ObjectHideFlags: 0
