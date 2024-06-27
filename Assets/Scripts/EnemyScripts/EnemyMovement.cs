@@ -34,15 +34,7 @@ public class EnemyMovement : MonoBehaviour
         newPosition.y = transform.position.y;
         transform.LookAt(newPosition);
 
-      //enemyRB.AddForce((enemyRB.transform.position + playerTarget.transform.position).normalized * speed * Time.deltaTime);
         transform.position -= (transform.position - playerTarget.transform.position).normalized * chaseSpeedValue * Time.deltaTime;
-      //AnimationsManager.instance.PlayAnimation(animator, chasingAnimation, .1f);
-
-        /*if (ScoreTracker.scoreCount > 20)
-        {
-            speed = 20;
-        }
-        animator.SetBool("Moving", true);*/
     }
 
     public void SetEnemyMovementAnimation()

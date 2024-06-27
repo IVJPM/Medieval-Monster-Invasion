@@ -15,13 +15,8 @@ public class EnemyAttacks : MonoBehaviour
     {
         playerTarget = GameObject.FindWithTag("Player");
 
+        enemyAttackCollider.enabled = false;
         animator = GetComponent<Animator>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SetEnemyMovementAnimation()

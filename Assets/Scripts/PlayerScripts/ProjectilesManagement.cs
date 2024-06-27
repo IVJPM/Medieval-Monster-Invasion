@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class ProjectilesManagement : MonoBehaviour
 {
-    [SerializeField] float shootVelocity; 
+    [SerializeField] float shootVelocity;
+
 
     Rigidbody arrowRB;
     Vector3 spawnPoint;
@@ -50,10 +51,13 @@ public class ProjectilesManagement : MonoBehaviour
         transform.SetParent(null);
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
+            ScoreTracker.scoreCount++;
+            PowerUpsManager.instance.SpawnPowerUp(transform);
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

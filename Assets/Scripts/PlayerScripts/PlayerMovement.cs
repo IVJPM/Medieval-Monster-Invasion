@@ -28,8 +28,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody playerRB;
     private Animator playerAnimator;
 
-
-
     void Start()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
@@ -40,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         HandlePlayerMovement();

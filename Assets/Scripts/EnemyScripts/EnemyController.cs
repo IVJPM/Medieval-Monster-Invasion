@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
 
     public enum State // Will update to a more advanced version if enough additional states are needed in the future. For now, this will work :)
     {
-        Run,
+        ChasePlayer,
         Attack
     };
     State currentState;
@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, playerTarget.transform.position) > 1.75f)
+        if (Vector3.Distance(transform.position, playerTarget.transform.position) > 1.25f)
         {
             isInAttackRange = false;
         }
@@ -48,7 +48,7 @@ public class EnemyController : MonoBehaviour
     {
         switch (currentState)
         {
-            case State.Run:
+            case State.ChasePlayer:
             {
                enemyMovement.ChasePlayerTarget(playerTarget, chaseTargetSpeed);
 
@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour
 
                 if (isInAttackRange == false && stateTransitionTimer >= 1.75f)
                 {
-                     currentState = State.Run;
+                     currentState = State.ChasePlayer;
                      enemyMovement.SetEnemyMovementAnimation();
                 }
             }
