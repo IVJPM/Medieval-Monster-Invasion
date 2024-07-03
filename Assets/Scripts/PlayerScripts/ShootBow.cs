@@ -42,7 +42,7 @@ public class ShootBow : MonoBehaviour
 
         bowStringPos = bowString.transform.localPosition;
         fireArrowStringPos = rightHandPos.localPosition;
-        fireArrowStringPos.x -= .05f;
+        fireArrowStringPos.x -= .025f;
         fireArrowStringPos.z += .025f;
         fireArrowStringPos.y -= .0575f;
 
@@ -79,7 +79,6 @@ public class ShootBow : MonoBehaviour
                 {
                     drawBowStringTimer += Time.deltaTime;
 
-                    //SoundFXManager.Instance.DrawBowSound(playerAudioSource, drawBowStringSFX, 1f);
                     bowString.transform.localPosition = Vector3.Lerp(bowStringPos, -fireArrowStringPos / 2.5f, drawBowStringTimer * 3.5f);
                 }
             }

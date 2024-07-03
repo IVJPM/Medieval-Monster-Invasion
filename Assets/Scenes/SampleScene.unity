@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: aa87107d0c3535c4983a4edb2d0e9f7b, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 133347283e115d147a5fcce7f47a538f, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0060169566, g: 0.060250062, b: 0.19530022, a: 1}
+  m_IndirectSpecularColor: {r: 0.38810045, g: 0.7278148, b: 0.7324987, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -196,6 +196,7 @@ MonoBehaviour:
   maxLookAngle: 25
   minLookAngle: -10
   verticalLookAngle: 0
+  powerUpTimer: 0
 --- !u!114 &385955458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,7 +484,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpPrefabList:
-  - {fileID: 112129929632583962, guid: 8cd29420e7734d44ca392c8a29e4b6b3, type: 3}
+  - {fileID: 7495854542567655959, guid: 77c2108e75a6da04b8a9c2d5f73fc910, type: 3}
+  powerUpPrefabIndex: 0
 --- !u!1 &519670383 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5978347802266929869, guid: e9760a9d3f157934f923ecf4d68201fa,
@@ -3665,6 +3667,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5231043924878608802, guid: fa2e606a643dfb447a865b6ea414b5ed,
+        type: 3}
+      propertyPath: field of view
+      value: 58
+      objectReference: {fileID: 0}
+    - target: {fileID: 5231043924878608802, guid: fa2e606a643dfb447a865b6ea414b5ed,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 5669821730024882770, guid: fa2e606a643dfb447a865b6ea414b5ed,
         type: 3}
       propertyPath: m_Name
@@ -3840,6 +3852,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4551472367936770495, guid: b3d12d21803044f48a27c7b409d18fdb,
         type: 3}
+      propertyPath: enemyPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 2261300972040203481, guid: 68cf9c3054d7a7e4baf7d4e74fc538e3,
+        type: 3}
+    - target: {fileID: 4551472367936770495, guid: b3d12d21803044f48a27c7b409d18fdb,
+        type: 3}
       propertyPath: spawnBoundaries.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -3921,7 +3939,7 @@ PrefabInstance:
     - target: {fileID: 7876588473162401858, guid: b3d12d21803044f48a27c7b409d18fdb,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -7,9 +7,9 @@ public class ProjectilesManagement : MonoBehaviour
 {
     [SerializeField] float shootVelocity;
 
-
     Rigidbody arrowRB;
     Vector3 spawnPoint;
+    Vector3 powerUpSpawnPoint;
     
     void Start()
     {
@@ -20,6 +20,8 @@ public class ProjectilesManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //powerUpSpawnPoint = transform.position;
+
         if (transform.parent == null)
         {
             transform.Translate(Vector3.forward * shootVelocity * Time.deltaTime);
@@ -57,7 +59,8 @@ public class ProjectilesManagement : MonoBehaviour
         if(other.gameObject.CompareTag("Enemy"))
         {
             ScoreTracker.scoreCount++;
-            PowerUpsManager.instance.SpawnPowerUp(transform);
+            PowerUpsManager.instance.SpawnPowerUp(new Vector3(other.transform.position.x, other.transform.position.y + .75f, other.transform.position.z));
+
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

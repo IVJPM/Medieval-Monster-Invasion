@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody playerRB;
     private Animator playerAnimator;
+    private bool speedIsBoosted;
+    public float powerUpTimer;
+
 
     void Start()
     {
@@ -36,6 +39,20 @@ public class PlayerMovement : MonoBehaviour
         Physics.gravity *= gravityModifier;
 
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Update()
+    {
+        if(speedIsBoosted == true)
+        {
+            powerUpTimer += Time.deltaTime;
+        }
+        if(powerUpTimer > 10)
+        {
+            speedIsBoosted = false;
+            powerUpTimer = 0;
+            movementSpeed = 3;
+        }
     }
 
     void FixedUpdate()
@@ -84,5 +101,18 @@ public class PlayerMovement : MonoBehaviour
         playerRotationAngles = Quaternion.Euler(leftRightLookAngle, upDownLookAngle, 0);
         playerRotationAngles.Normalize();
         playerRB.MoveRotation(playerRotationAngles);
+    }
+
+    private void OnTriggerEnter(Collider other) // Move this to a PlayerController/PlayerManager script to organize player states
+    {
+        if(other.gameObject.TryGetComponent(out SpeedBoostPowerUp boostPowerUp))
+        {
+            if(boostPowerUp.boosted == false && speedIsBoosted == false)
+            {
+                movementSpeed = boostPowerUp.BoostPlayerSpeed(movementSpeed + 3f);
+            }
+            speedIsBoosted = true;
+            Destroy(other.gameObject);
+        }
     }
 }
