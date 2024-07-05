@@ -10,7 +10,7 @@ public class SpeedBoostPowerUp : MonoBehaviour
     private void Update()
     {
         destroyTimer += Time.deltaTime;
-        if(destroyTimer > 20)
+        if(destroyTimer > 10)
         {
             Destroy(gameObject);
         }

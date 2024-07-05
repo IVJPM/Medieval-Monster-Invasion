@@ -10,6 +10,8 @@ public class PowerUpsManager : MonoBehaviour
 
     [SerializeField] int powerUpPrefabIndex;
 
+    [SerializeField] int spawnPowerUpChance;
+    
     void Start()
     {
         if (instance != null)
@@ -32,5 +34,11 @@ public class PowerUpsManager : MonoBehaviour
     {
         powerUpPrefabIndex = Random.Range(0, powerUpPrefabList.Count);
         Instantiate(powerUpPrefabList[powerUpPrefabIndex], spawnPosition, transform.rotation);
+    }
+
+    public int ChanceToSpawnPowerUp()
+    {
+        spawnPowerUpChance = Random.Range(0, 5);
+        return spawnPowerUpChance;
     }
 }

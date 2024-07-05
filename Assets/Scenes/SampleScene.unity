@@ -485,7 +485,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUpPrefabList:
   - {fileID: 7495854542567655959, guid: 77c2108e75a6da04b8a9c2d5f73fc910, type: 3}
+  - {fileID: 112129929632583962, guid: 8cd29420e7734d44ca392c8a29e4b6b3, type: 3}
   powerUpPrefabIndex: 0
+  spawnPowerUpChance: 0
 --- !u!1 &519670383 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5978347802266929869, guid: e9760a9d3f157934f923ecf4d68201fa,
