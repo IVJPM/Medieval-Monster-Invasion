@@ -21,6 +21,7 @@ public class EnemySpawnManager : MonoBehaviour
     void Start()
     {
         InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnInterval);
+        DontDestroyOnLoad(gameObject); //Will have to change this to either a singleton, or some other method of ensuring one of these is in each scene at a time
     }
 
     private void SpawnEnemy()

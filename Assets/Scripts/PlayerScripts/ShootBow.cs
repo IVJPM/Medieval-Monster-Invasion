@@ -59,7 +59,7 @@ public class ShootBow : MonoBehaviour
 
     private void BowShot()
     {
-
+        //Break up into smaller methods to use with player state machine
         if (Input.GetMouseButton(0))
         {
             drawBowStringSmoothing += Time.deltaTime;

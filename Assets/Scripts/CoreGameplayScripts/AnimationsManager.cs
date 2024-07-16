@@ -6,16 +6,21 @@ public class AnimationsManager : MonoBehaviour
 {
     public static AnimationsManager instance;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
+        if (instance != null)
         {
             Destroy(instance);
         }
+        else
+        {
+            instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
     }
 
     public void PlayAnimation(Animator animator, AnimationClip clip, float animationsBlend)

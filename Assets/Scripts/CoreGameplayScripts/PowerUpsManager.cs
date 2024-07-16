@@ -12,7 +12,7 @@ public class PowerUpsManager : MonoBehaviour
 
     [SerializeField] int spawnPowerUpChance;
     
-    void Start()
+    void Awake()
     {
         if (instance != null)
         {
@@ -22,6 +22,11 @@ public class PowerUpsManager : MonoBehaviour
         {
             instance = this;
         }
+    }
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

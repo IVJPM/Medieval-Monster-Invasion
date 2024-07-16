@@ -6,6 +6,7 @@ using UnityEngine;
 public class ProjectilesManagement : MonoBehaviour
 {
     [SerializeField] float shootVelocity;
+    [SerializeField] int projectileDamage;
 
     Rigidbody arrowRB;
     Vector3 spawnPoint;

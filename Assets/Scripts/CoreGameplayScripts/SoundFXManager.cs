@@ -6,7 +6,7 @@ public class SoundFXManager : MonoBehaviour
 {
     public static SoundFXManager Instance;
 
-    private void Awake()
+    void Awake()
     {
         if (Instance != null)
         {
@@ -16,6 +16,11 @@ public class SoundFXManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
     }
     // Update is called once per frame
     void Update()
