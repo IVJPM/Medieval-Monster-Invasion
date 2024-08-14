@@ -9,12 +9,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement Inputs")]
     [SerializeField] float horizontalInput;
     [SerializeField] float verticalInput;
-    [SerializeField] Vector3 moveInput;
+    public Vector3 moveInput;
     [SerializeField] float leftRightRotation;
     [SerializeField] float upDownRotation;
     [SerializeField] Vector2 playerLookRotation;
-    [SerializeField] Quaternion playerRotationAngles;
-    [SerializeField] float movementSpeed;
+    public Quaternion playerRotationAngles {  get; private set; }
     [SerializeField] float gravityModifier;
 
 
@@ -43,26 +42,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if(speedIsBoosted == true)
-        {
-            powerUpTimer += Time.deltaTime;
-        }
-        if(powerUpTimer > 10)
-        {
-            speedIsBoosted = false;
-            powerUpTimer = 0;
-            movementSpeed = 3;
-        }
+        RetrievePlayerMovementInputs();
     }
 
     void FixedUpdate()
     {
-        HandlePlayerMovement();
+        //HandlePlayerMovement();
     }
 
     private void LateUpdate()
     {
-       HandlePlayerRotation();
+       //HandlePlayerRotation();
     }
 
     private void RetrievePlayerMovementInputs()
@@ -72,23 +62,17 @@ public class PlayerMovement : MonoBehaviour
         moveInput = playerInputManager.moveInput;
     }
 
-    private void HandlePlayerMovement()
-    {
-        RetrievePlayerMovementInputs();
-
+    public void HandlePlayerMovement(float movementSpeed)
+    {        
         moveInput = new Vector3(horizontalInput, 0, verticalInput);
         moveInput.Normalize();
         moveInput.y = 0;
-
-        if (moveInput != Vector3.zero)
-        {
-            playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed;
-        }
+        
+        playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
     }
 
-    private void HandlePlayerRotation()
+    public void HandlePlayerRotation()
     {
-        //Try separating camera and player rotations at a later time (you're so sick of feeling worthless from not getting the smoothest camera right now)
         leftRightRotation = Input.GetAxis("Mouse Y");
         upDownRotation = Input.GetAxis("Mouse X");
         playerLookRotation = new Vector2(upDownRotation, leftRightRotation);
@@ -101,18 +85,5 @@ public class PlayerMovement : MonoBehaviour
         playerRotationAngles = Quaternion.Euler(leftRightLookAngle, upDownLookAngle, 0);
         playerRotationAngles.Normalize();
         playerRB.MoveRotation(playerRotationAngles);
-    }
-
-    private void OnTriggerEnter(Collider other) // Move this to a PlayerController/PlayerManager script to organize player states
-    {
-        if(other.gameObject.TryGetComponent(out SpeedBoostPowerUp boostPowerUp))
-        {
-            if(boostPowerUp.boosted == false && speedIsBoosted == false)
-            {
-                movementSpeed = boostPowerUp.BoostPlayerSpeed(movementSpeed + 3f);
-            }
-            speedIsBoosted = true;
-            Destroy(other.gameObject);
-        }
     }
 }

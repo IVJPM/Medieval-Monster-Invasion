@@ -855,7 +855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chasingAnimation: {fileID: 1827226128182048838, guid: 3aa8fd6184121914c96e80824ee288c0,
     type: 3}
-  speed: 1
+  speed: 1.5
 --- !u!114 &3180966476202805376
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,16 +29,10 @@ public class PowerUpsManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void SpawnPowerUp(Vector3 spawnPosition)
     {
-        powerUpPrefabIndex = Random.Range(0, powerUpPrefabList.Count);
-        Instantiate(powerUpPrefabList[powerUpPrefabIndex], spawnPosition, transform.rotation);
+        powerUpPrefabIndex = Random.Range(0, powerUpPrefabList.Count); //Setting the index to a random number between 0 and the max List number of objects
+        Instantiate(powerUpPrefabList[powerUpPrefabIndex], spawnPosition, transform.rotation); //Instantiating the game object in the list at the index randomly generated above
     }
 
     public int ChanceToSpawnPowerUp()

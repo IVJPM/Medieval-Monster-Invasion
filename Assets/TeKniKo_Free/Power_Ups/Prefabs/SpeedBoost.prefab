@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 7155462594337050797}
   - component: {fileID: 6116614814480539400}
   - component: {fileID: 8288421625071791042}
-  - component: {fileID: -5781507707056378761}
   - component: {fileID: -3110471972739458756}
   - component: {fileID: -2759897233536376744}
+  - component: {fileID: 6429483247939516785}
   m_Layer: 0
-  m_Name: Power_Up
+  m_Name: SpeedBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,19 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-5781507707056378761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7495854542567655959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4207307999acc874a8c29ce0ecba79cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boosted: 0
 --- !u!114 &-3110471972739458756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +123,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 3.5085506
   m_Center: {x: 0.054134365, y: 0.007861137, z: 0.03690291}
+--- !u!114 &6429483247939516785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7495854542567655959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4207307999acc874a8c29ce0ecba79cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boosted: 0
+  destroyTimer: 0
 --- !u!1001 &2860904348935685444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PowerUp_Sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773399876510048642, guid: 84221c5d9e2cf0b488ddb37026596b45,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5773399876510048669, guid: 84221c5d9e2cf0b488ddb37026596b45,
         type: 3}

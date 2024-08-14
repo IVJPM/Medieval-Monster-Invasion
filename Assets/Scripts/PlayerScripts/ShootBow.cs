@@ -51,27 +51,25 @@ public class ShootBow : MonoBehaviour
         arrow = arrowPrefab;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        BowShot();
+
     }
 
-    private void BowShot()
+    public void DrawBow()
     {
-        //Break up into smaller methods to use with player state machine
-        if (Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
             drawBowStringSmoothing += Time.deltaTime;
-            if(drawBowStringSmoothing <= 1.5f)
+            if (drawBowStringSmoothing <= 1.5f)
             {
                 AnimationsManager.instance.PlayAnimation(playerAnimator, drawArrowClip, .1f * Time.deltaTime);
-               
-                if(arrowPrefabArray.Count < 1)
+
+                if (arrowPrefabArray.Count < 1)
                 {
                     arrowPrefabArray.Add(arrow);
 
-                    Instantiate(arrow, arrowSpawnPoint.transform.position, arrowSpawnPoint.transform.rotation * Quaternion.Euler(16, 0, 0), 
+                    Instantiate(arrow, arrowSpawnPoint.transform.position, arrowSpawnPoint.transform.rotation * Quaternion.Euler(16, 0, 0),
                     arrowSpawnPoint.transform.parent);
                 }
 
@@ -82,17 +80,23 @@ public class ShootBow : MonoBehaviour
                     bowString.transform.localPosition = Vector3.Lerp(bowStringPos, -fireArrowStringPos / 2.5f, drawBowStringTimer * 3.5f);
                 }
             }
-            if(drawBowStringSmoothing < .01f)
+            if (drawBowStringSmoothing < .01f)
             {
                 SoundFXManager.Instance.DrawBowSound(playerAudioSource, drawBowStringSFX, 1f);
             }
 
-            else if(drawBowStringSmoothing >= 1.5f)
+            else if (drawBowStringSmoothing >= 1.5f)
             {
                 drawBowStringSmoothing = 1.5f;
             }
         }
-        if (Input.GetMouseButtonUp(0)) 
+    }
+
+    public void BowShot()
+    {
+        //Break up into smaller methods to use with player state machine
+                
+        if(Input.GetMouseButtonUp(0))
         {
             OnBowShot?.Invoke(this, EventArgs.Empty);
 

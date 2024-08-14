@@ -35,10 +35,13 @@ public class EnemySpawnManager : MonoBehaviour
 
         for(int i = 0; i < spawnBoundaries.Count; i++)
         {
-            if (Vector3.Distance(spawnPosition, playerTarget.transform.position) >= Vector3.Distance(spawnBoundaries[i].position, playerTarget.transform.position))
+            for(int j = 0; j < spawnIndex; j++)
             {
-                Debug.LogWarning("Enemy Out Of Bounds");
-                enemyPrefabs[i].transform.position = spawnBoundaries[i].position;
+                if (Vector3.Distance(enemyPrefabs[spawnIndex].transform.position, playerTarget.transform.position) >= Vector3.Distance(spawnBoundaries[i].position, playerTarget.transform.position))
+                {
+                    Debug.LogWarning("Enemy Out Of Bounds");
+                    enemyPrefabs[i].transform.position = spawnBoundaries[i].position;
+                }
             }
         }
     }
