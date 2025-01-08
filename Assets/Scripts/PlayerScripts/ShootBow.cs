@@ -24,6 +24,7 @@ public class ShootBow : MonoBehaviour
     [SerializeField] float drawBowStringSmoothing;
     [SerializeField] GameObject arrowPrefab;
     [SerializeField] List<GameObject> arrowPrefabArray = new List<GameObject>();
+    [SerializeField] PlayerInputManager playerInputManager;
 
     private float drawBowStringTimer;
     GameObject arrow;
@@ -34,11 +35,14 @@ public class ShootBow : MonoBehaviour
     Vector3 arrowPosition;
     private Animator playerAnimator;
     private AudioSource playerAudioSource;
+    public int bowAttackLayerIndex;
 
     void Start()
     {
         playerAnimator = GetComponentInChildren<Animator>();
         playerAudioSource = GetComponent<AudioSource>();
+
+        bowAttackLayerIndex = playerAnimator.GetLayerIndex("Attack Layer");
 
         bowStringPos = bowString.transform.localPosition;
         fireArrowStringPos = rightHandPos.localPosition;
@@ -53,16 +57,18 @@ public class ShootBow : MonoBehaviour
 
     void Update()
     {
-
+        DrawBow();
+        BowShot();
     }
 
     public void DrawBow()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(playerInputManager.attack)
         {
             drawBowStringSmoothing += Time.deltaTime;
             if (drawBowStringSmoothing <= 1.5f)
             {
+                playerAnimator.SetLayerWeight(bowAttackLayerIndex, 1);
                 AnimationsManager.instance.PlayAnimation(playerAnimator, drawArrowClip, .1f * Time.deltaTime);
 
                 if (arrowPrefabArray.Count < 1)
@@ -78,6 +84,7 @@ public class ShootBow : MonoBehaviour
                     drawBowStringTimer += Time.deltaTime;
 
                     bowString.transform.localPosition = Vector3.Lerp(bowStringPos, -fireArrowStringPos / 2.5f, drawBowStringTimer * 3.5f);
+
                 }
             }
             if (drawBowStringSmoothing < .01f)
@@ -93,9 +100,7 @@ public class ShootBow : MonoBehaviour
     }
 
     public void BowShot()
-    {
-        //Break up into smaller methods to use with player state machine
-                
+    {                
         if(Input.GetMouseButtonUp(0))
         {
             OnBowShot?.Invoke(this, EventArgs.Empty);
@@ -108,7 +113,8 @@ public class ShootBow : MonoBehaviour
             bowString.transform.localPosition = Vector3.Lerp(bowString.transform.localPosition, bowStringPos, 1f);
             drawBowStringSmoothing = 0;
             drawBowStringTimer = 0;
+
+            playerAnimator.SetLayerWeight(bowAttackLayerIndex, 0);
         }
-        //Set Idle animation with specified time after firing
     }
 }

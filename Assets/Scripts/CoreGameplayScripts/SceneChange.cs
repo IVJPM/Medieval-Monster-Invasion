@@ -9,7 +9,7 @@ public class SceneChange : MonoBehaviour
 
     [SerializeField] CanvasGroup fader;
 
-    enum SceneIdentifier
+    enum SceneIdentifier //Change to just picking level from 'Main Menu', it'll probably work better 
     {
         Level1, Level2
     }

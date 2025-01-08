@@ -7,6 +7,7 @@ public class SpeedBoostPowerUp : MonoBehaviour
     public float speedBoost {  get; private set; }
     public bool boosted;
     public float destroyTimer;
+
     private void Update()
     {
         destroyTimer += Time.deltaTime;

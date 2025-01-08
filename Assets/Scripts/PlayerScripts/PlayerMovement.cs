@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ILocomotion
 {
     PlayerInputManager playerInputManager;
 
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-       //HandlePlayerRotation();
+        HandleRotation();
     }
 
     private void RetrievePlayerMovementInputs()
@@ -71,18 +71,18 @@ public class PlayerMovement : MonoBehaviour
         playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
     }
 
-    public void HandlePlayerRotation()
+    public void HandleRotation()
     {
         leftRightRotation = Input.GetAxis("Mouse Y");
         upDownRotation = Input.GetAxis("Mouse X");
-        playerLookRotation = new Vector2(upDownRotation, leftRightRotation);
+        playerLookRotation = new Vector2(leftRightRotation, upDownRotation);
 
-        upDownLookAngle += playerLookRotation.x * 75f * Time.fixedDeltaTime;
-        leftRightLookAngle -= playerLookRotation.y * 75f * Time.fixedDeltaTime;
+        upDownLookAngle -= playerLookRotation.x * 75f * Time.fixedDeltaTime;
+        leftRightLookAngle += playerLookRotation.y * 75f * Time.fixedDeltaTime;
 
-        leftRightLookAngle = Mathf.Clamp(leftRightLookAngle, minLookAngle, maxLookAngle);
+        upDownLookAngle = Mathf.Clamp(upDownLookAngle, minLookAngle, maxLookAngle);
 
-        playerRotationAngles = Quaternion.Euler(leftRightLookAngle, upDownLookAngle, 0);
+        playerRotationAngles = Quaternion.Euler(upDownLookAngle, leftRightLookAngle, 0);
         playerRotationAngles.Normalize();
         playerRB.MoveRotation(playerRotationAngles);
     }

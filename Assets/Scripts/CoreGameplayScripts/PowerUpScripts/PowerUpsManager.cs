@@ -32,7 +32,7 @@ public class PowerUpsManager : MonoBehaviour
     public void SpawnPowerUp(Vector3 spawnPosition)
     {
         powerUpPrefabIndex = Random.Range(0, powerUpPrefabList.Count); //Setting the index to a random number between 0 and the max List number of objects
-        Instantiate(powerUpPrefabList[powerUpPrefabIndex], spawnPosition, transform.rotation); //Instantiating the game object in the list at the index randomly generated above
+        Instantiate(powerUpPrefabList[powerUpPrefabIndex], spawnPosition, powerUpPrefabList[powerUpPrefabIndex].gameObject.transform.rotation); //Instantiating the game object in the list at the index randomly generated above
     }
 
     public int ChanceToSpawnPowerUp()

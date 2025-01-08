@@ -7,10 +7,13 @@ public class PlayerInputManager : MonoBehaviour
     public float horizontalInput {  get; private set; }
     public float verticalInput { get; private set; }
     public Vector3 moveInput { get; private set; }
+    public bool attack { get; private set; }
 
     public float upDownCameraMovement { get; private set; }
     public float leftRightCameraMovement { get; private set; }
     public Vector2 cameraInput { get; private set; }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,9 @@ public class PlayerInputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 1)
         PlayerMovementInputs();
+        PlayerAttackInput();
     }
 
     private void PlayerMovementInputs()
@@ -28,5 +33,12 @@ public class PlayerInputManager : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         moveInput = new Vector3(horizontalInput, 0, verticalInput);
+    }
+
+    private void PlayerAttackInput()
+    {
+        attack = Input.GetButtonDown("Attack");
+        if (attack)
+        Debug.Log("Attacking");
     }
 }

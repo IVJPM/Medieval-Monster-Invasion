@@ -2,10 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleState : State
+public class IdleState : CharacterState
 {
-    public override State RunCurrentState()
+    public override void EnterState()
     {
-        return this;
+        
+    }
+
+    public override void ExitState()
+    {
+        
+    }
+
+    public override void RunState(GameObject character)
+    {
+        
     }
 }

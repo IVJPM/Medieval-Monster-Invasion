@@ -18,11 +18,8 @@ public class ProjectilesManagement : MonoBehaviour
         spawnPoint = transform.position;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //powerUpSpawnPoint = transform.position;
-
         if (transform.parent == null)
         {
             transform.Translate(Vector3.forward * shootVelocity * Time.deltaTime);

@@ -17,30 +17,43 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AnimationClip idleClip;
     [SerializeField] AnimationClip deathClip;
     [SerializeField] PauseGame gameOverText;
-    [SerializeField] float playerMoveSpeed;
+    //[SerializeField] float playerMoveSpeed;
+
+    [SerializeField] CharacterState currentCharacterState;
+    [SerializeField] CharacterState attackState;
+    [SerializeField] CharacterState idleState;
+    [SerializeField] CharacterState locomotionState;
+    [SerializeField] CharacterState deathState;
+
+
+
+    // Move to different class once figured out how best to set up
+    [SerializeField] Transform weaponSlot;
 
     public bool speedIsBoosted;
     public float powerUpTimer;
 
-    public enum PlayerState
+    public enum PlayerArmedState
     {
         Idle,
         Movement,
         Death
     };
 
-    PlayerState playerState;
+    PlayerArmedState armedState;
     // Start is called before the first frame update
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        playerMovement = GetComponentInChildren<PlayerMovement>();
         playerInputManager = GetComponent<PlayerInputManager>();
         playerAnimations = GetComponentInChildren<PlayerAnimations>();
         playerHealth = GetComponent<PlayerHealth>();
-
-        shootBow = GetComponentInChildren<ShootBow>();
         playerRb = GetComponent<Rigidbody>();
         playerAnimator = GetComponentInChildren<Animator>();
+
+        currentCharacterState = idleState;
+        currentCharacterState.RunState(gameObject);
+
     }
 
     private void Update()
@@ -53,25 +66,24 @@ public class PlayerController : MonoBehaviour
         {
             speedIsBoosted = false;
             powerUpTimer = 0;
-            playerMoveSpeed = 150;
-        }
-        if(playerHealth.isAlive == true)
-        {
-            shootBow.DrawBow();
-            shootBow.BowShot();
         }
     }
     void FixedUpdate()
     {
-        ChangePlayerState();
+        if (Time.timeScale == 1)
+            //ChangePlayerState();
+            SetPlayerState();
     }
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
-        if(playerHealth.isAlive == true)
-        playerMovement.HandlePlayerRotation();
-    }
+        if (Time.timeScale == 1)
+        {
+            if (playerHealth.isAlive == true)
+            playerMovement.HandleRotation();
+        }
+    }*/
 
-    private void ChangePlayerState()
+    /*private void ChangePlayerState()
     {
         switch(playerState)
         { 
@@ -85,7 +97,6 @@ public class PlayerController : MonoBehaviour
                 {
                      playerState = PlayerState.Death;
                      AnimationsManager.instance.PlayAnimation(playerAnimator, deathClip, .25f);
-
                 }
             }
             break;
@@ -101,19 +112,80 @@ public class PlayerController : MonoBehaviour
                 {
                      playerState = PlayerState.Death;
                      AnimationsManager.instance.PlayAnimation(playerAnimator, deathClip, .1f);
-
                 }
             }
             break;
             case PlayerState.Death:
             {
-                    gameOverText.GameOver(); //Create a main gameplay canvas to hold pausing, score tracking, and game over
+                 gameOverText.GameOver(); //Create a main gameplay canvas to hold pausing, score tracking, and game over
             }
             break;
         }
-    } //Player state change conditions 
+    } //Player state change conditions */
 
-    private void OnTriggerEnter(Collider other)
+    private void ChangeState(CharacterState desiredState)
+    {
+        //Being called in the 'SetPlayerState()' function
+        if (currentCharacterState == desiredState)
+        {
+            return;
+        }
+        if (currentCharacterState != desiredState)
+        {
+            currentCharacterState.ExitState();
+            currentCharacterState = desiredState;
+            currentCharacterState?.EnterState();
+        }
+    }
+
+    private void SetPlayerState()
+    {
+        bool isMoving;
+        if (playerInputManager.moveInput != Vector3.zero && playerHealth.isAlive == true)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
+
+        if (isMoving)
+        {
+            ChangeState(locomotionState);
+        }
+        else if (!isMoving && playerHealth.isAlive == true)
+        {
+            ChangeState(idleState);
+        }
+        else
+        {
+            ChangeState(deathState);
+            gameOverText.GameOver();
+        }
+
+        currentCharacterState.RunState(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        MeleePowerUp.OnMeleePowerUp += MeleePowerUp_OnMeleePowerUp;
+    }
+
+    private void OnDisable()
+    {
+        MeleePowerUp.OnMeleePowerUp -= MeleePowerUp_OnMeleePowerUp;
+    }
+
+    private void MeleePowerUp_OnMeleePowerUp(object sender, System.EventArgs e)
+    {
+        if(weaponSlot.GetComponentInChildren<WeaponAttributes>().weaponType != WeaponAttributes.WeaponType.Melee)
+        {
+            print("New weapon");
+        }
+    }
+
+    /*private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out SpeedBoostPowerUp boostPowerUp))
         {
@@ -124,5 +196,5 @@ public class PlayerController : MonoBehaviour
             speedIsBoosted = true;
             Destroy(other.gameObject);
         }
-    } //Speed boost power up
+    } //Speed boost power up, will be moved to a different script dealing with power ups*/
 }
