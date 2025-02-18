@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2631979829445975008}
   - component: {fileID: 5252685484624182750}
   - component: {fileID: 3093446659742346668}
+  - component: {fileID: -8542058514346855981}
   m_Layer: 0
   m_Name: ArrowPrefab(Custom)
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootVelocity: 40
+  projectileDamage: 0
 --- !u!65 &3093446659742346668
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -68,6 +70,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.099322215, y: 0.06478912, z: 1.1913177}
   m_Center: {x: -0.0014891699, y: 0.28218108, z: 0.4457491}
+--- !u!114 &-8542058514346855981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8563082702458702372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d10feac52d119a46880525a86b7643a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponType: 0
+  <indexID>k__BackingField: 0
+  <weaponDamage>k__BackingField: 5
+  <weaponName>k__BackingField: 
 --- !u!1001 &1608851778941495286
 PrefabInstance:
   m_ObjectHideFlags: 0

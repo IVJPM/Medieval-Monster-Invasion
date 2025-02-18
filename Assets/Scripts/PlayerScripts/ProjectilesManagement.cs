@@ -55,12 +55,6 @@ public class ProjectilesManagement : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
-            ScoreTracker.scoreCount++;
-            if(PowerUpsManager.instance.ChanceToSpawnPowerUp() == 4)
-            {
-                PowerUpsManager.instance.SpawnPowerUp(new Vector3(other.transform.position.x, other.transform.position.y + .75f, other.transform.position.z));
-            }
-            Destroy(other.gameObject);
             Destroy(gameObject);
         }
     }

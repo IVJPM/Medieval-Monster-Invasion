@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlayerController;
+using static WeaponAttributes;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,17 +31,7 @@ public class PlayerController : MonoBehaviour
     // Move to different class once figured out how best to set up
     [SerializeField] Transform weaponSlot;
 
-    public bool speedIsBoosted;
-    public float powerUpTimer;
-
-    public enum PlayerArmedState
-    {
-        Idle,
-        Movement,
-        Death
-    };
-
-    PlayerArmedState armedState;
+    WeaponType currentWeaponType;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +41,7 @@ public class PlayerController : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerRb = GetComponent<Rigidbody>();
         playerAnimator = GetComponentInChildren<Animator>();
+        shootBow = GetComponentInChildren<ShootBow>();
 
         currentCharacterState = idleState;
         currentCharacterState.RunState(gameObject);
@@ -58,70 +50,49 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (speedIsBoosted == true)
-        {
-            powerUpTimer += Time.deltaTime;
-        }
-        if (powerUpTimer > 10)
-        {
-            speedIsBoosted = false;
-            powerUpTimer = 0;
-        }
+        //ChangePlayerState();
     }
     void FixedUpdate()
     {
         if (Time.timeScale == 1)
-            //ChangePlayerState();
             SetPlayerState();
     }
-    /*private void LateUpdate()
-    {
-        if (Time.timeScale == 1)
-        {
-            if (playerHealth.isAlive == true)
-            playerMovement.HandleRotation();
-        }
-    }*/
 
     /*private void ChangePlayerState()
     {
-        switch(playerState)
-        { 
-            case PlayerState.Idle:
-            {
-                if(playerMovement.moveInput != Vector3.zero && playerHealth.isAlive == true)
+        Debug.Log(currentWeaponType.ToString());
+        switch (currentWeaponType)
+        {
+            case WeaponType.Ranged:
                 {
-                     playerState = PlayerState.Movement;
-                }
-                else if(playerHealth.isAlive != true)
-                {
-                     playerState = PlayerState.Death;
-                     AnimationsManager.instance.PlayAnimation(playerAnimator, deathClip, .25f);
-                }
-            }
-            break;
-            case PlayerState.Movement:
-            {
-                playerMovement.HandlePlayerMovement(playerMoveSpeed);
+                    shootBow.DrawBow();
+                    shootBow.BowShot();
+                    AnimationsManager.instance.AnimationLayerWeightIndex(playerAnimator, 0, 1);
 
-                if (playerMovement.moveInput == Vector3.zero && playerHealth.isAlive == true)
-                {
-                     playerState = PlayerState.Idle;
+                    if (weaponSlot.GetComponentInChildren<WeaponAttributes>().weaponType != WeaponType.Ranged)
+                    {
+                        currentWeaponType = WeaponType.Melee;
+                    }
                 }
-                else if (playerHealth.isAlive != true)
-                {
-                     playerState = PlayerState.Death;
-                     AnimationsManager.instance.PlayAnimation(playerAnimator, deathClip, .1f);
-                }
-            }
             break;
-            case PlayerState.Death:
-            {
-                 gameOverText.GameOver(); //Create a main gameplay canvas to hold pausing, score tracking, and game over
-            }
+            case WeaponType.Melee:
+                {
+                    AnimationsManager.instance.AnimationLayerWeightIndex(playerAnimator, 1, 1);
+                    if (weaponSlot.gameObject.GetComponentInChildren<WeaponAttributes>().weaponType != WeaponType.Melee)
+                    {
+                        currentWeaponType = WeaponType.Ranged;
+                        for(int i = 0; i < weaponSlot.childCount; i++)
+                        {
+                            if(weaponSlot.GetChild(i).gameObject.GetComponent<WeaponType>() == WeaponType.Ranged)
+                            {
+                                weaponSlot.GetChild(i).gameObject.SetActive(true);
+                            }
+                        }
+                    }
+                }
             break;
         }
-    } //Player state change conditions */
+    }*/
 
     private void ChangeState(CharacterState desiredState)
     {
@@ -165,24 +136,6 @@ public class PlayerController : MonoBehaviour
         }
 
         currentCharacterState.RunState(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        MeleePowerUp.OnMeleePowerUp += MeleePowerUp_OnMeleePowerUp;
-    }
-
-    private void OnDisable()
-    {
-        MeleePowerUp.OnMeleePowerUp -= MeleePowerUp_OnMeleePowerUp;
-    }
-
-    private void MeleePowerUp_OnMeleePowerUp(object sender, System.EventArgs e)
-    {
-        if(weaponSlot.GetComponentInChildren<WeaponAttributes>().weaponType != WeaponAttributes.WeaponType.Melee)
-        {
-            print("New weapon");
-        }
     }
 
     /*private void OnTriggerEnter(Collider other)

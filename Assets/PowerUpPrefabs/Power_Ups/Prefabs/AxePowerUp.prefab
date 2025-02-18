@@ -100,8 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 1
+  <indexID>k__BackingField: 1
   <weaponDamage>k__BackingField: 7
   <weaponName>k__BackingField: 'Axe '
+  activeWeaponTimer: 0
+  meleeWeaponAnimation: {fileID: 0}
+  meleeIdleClip: {fileID: 0}
+  meleeAnimationIndex: 0
+  meleeAnimationLayerWeight: 0
 --- !u!114 &7061157933859778621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyTimer: 0
+  meleeWeapon: {fileID: -6185740520461507617, guid: ea8d7f82f1b58b346bd5c88454652e37,
+    type: 3}
 --- !u!136 &5565623597612817785
 CapsuleCollider:
   m_ObjectHideFlags: 0

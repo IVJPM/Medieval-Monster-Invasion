@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ShootBow : MonoBehaviour
+public class ShootBow : MonoBehaviour, IWeapon
 {
     public static event EventHandler OnBowShot;
 
@@ -35,14 +35,11 @@ public class ShootBow : MonoBehaviour
     Vector3 arrowPosition;
     private Animator playerAnimator;
     private AudioSource playerAudioSource;
-    public int bowAttackLayerIndex;
 
-    void Start()
+    void Awake()
     {
         playerAnimator = GetComponentInChildren<Animator>();
         playerAudioSource = GetComponent<AudioSource>();
-
-        bowAttackLayerIndex = playerAnimator.GetLayerIndex("Attack Layer");
 
         bowStringPos = bowString.transform.localPosition;
         fireArrowStringPos = rightHandPos.localPosition;
@@ -57,8 +54,10 @@ public class ShootBow : MonoBehaviour
 
     void Update()
     {
-        DrawBow();
-        BowShot();
+        if(bowString.activeInHierarchy)
+        {
+            PlayerAttack();
+        }
     }
 
     public void DrawBow()
@@ -68,7 +67,6 @@ public class ShootBow : MonoBehaviour
             drawBowStringSmoothing += Time.deltaTime;
             if (drawBowStringSmoothing <= 1.5f)
             {
-                playerAnimator.SetLayerWeight(bowAttackLayerIndex, 1);
                 AnimationsManager.instance.PlayAnimation(playerAnimator, drawArrowClip, .1f * Time.deltaTime);
 
                 if (arrowPrefabArray.Count < 1)
@@ -113,8 +111,14 @@ public class ShootBow : MonoBehaviour
             bowString.transform.localPosition = Vector3.Lerp(bowString.transform.localPosition, bowStringPos, 1f);
             drawBowStringSmoothing = 0;
             drawBowStringTimer = 0;
+            AnimationsManager.instance.PlayAnimation(playerAnimator, returnToIdleClip, .5f);
 
-            playerAnimator.SetLayerWeight(bowAttackLayerIndex, 0);
         }
+    }
+
+    public void PlayerAttack()
+    {
+        DrawBow();
+        BowShot();
     }
 }

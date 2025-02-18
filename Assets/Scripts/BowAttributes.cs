@@ -6,7 +6,7 @@ public class BowAttributes : WeaponAttributes
 {
     private void Start()
     {
-        
+        weaponType = WeaponType.Ranged;
     }
 
     private void Update()

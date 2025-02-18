@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class IdleState : CharacterState
 {
+    [SerializeField] AnimationClip idleAnimation;
+    [SerializeField] Animator playerAnimation;
+
+
     public override void EnterState()
     {
-        
+        AnimationsManager.instance.PlayAnimation(playerAnimation, idleAnimation, .01f);
+
     }
 
     public override void ExitState()

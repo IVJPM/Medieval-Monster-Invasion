@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class MeleePowerUp : MonoBehaviour
 {
-    public static event EventHandler OnMeleePowerUp;
-
     public float destroyTimer;
+
+    private int meleeWeaponIndex;
+    [SerializeField] WeaponAttributes meleeWeapon;
+    //public EquipMeleeWeapon equipMeleeWeapon;
 
     void Update()
     {
@@ -20,10 +22,10 @@ public class MeleePowerUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.TryGetComponent(out PlayerController player))
+        if(other.gameObject.TryGetComponent(out EquipPlayerWeapon playerWeapon))
         {
-            OnMeleePowerUp?.Invoke(this, EventArgs.Empty);
+            playerWeapon.EquipWeapon(meleeWeapon.indexID);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 }

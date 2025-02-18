@@ -27,4 +27,9 @@ public class AnimationsManager : MonoBehaviour
     {
         animator.CrossFade(clip.name, animationsBlend);
     }
+
+    public void AnimationLayerWeightIndex(Animator animator, int animationLayerIndex, int animationLayerWeight)
+    {
+        animator.SetLayerWeight(animationLayerIndex, animationLayerWeight);
+    }
 }

@@ -28,17 +28,15 @@ public class PlayerInputManager : MonoBehaviour
         PlayerAttackInput();
     }
 
-    private void PlayerMovementInputs()
+    private void PlayerMovementInputs() //WASD movement
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         moveInput = new Vector3(horizontalInput, 0, verticalInput);
     }
 
-    private void PlayerAttackInput()
+    private void PlayerAttackInput() // Left Mouse Button
     {
-        attack = Input.GetButtonDown("Attack");
-        if (attack)
-        Debug.Log("Attacking");
+        attack = Input.GetButton("Attack");
     }
 }

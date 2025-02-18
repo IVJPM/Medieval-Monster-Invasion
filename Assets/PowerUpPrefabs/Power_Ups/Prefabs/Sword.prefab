@@ -98,8 +98,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: 1
-  <weaponDamage>k__BackingField: 5
+  <indexID>k__BackingField: 2
+  <weaponDamage>k__BackingField: 10
   <weaponName>k__BackingField: Sword
+  activeWeaponTimer: 0
+  <meleeWeaponAnimation>k__BackingField: {fileID: -203655887218126122, guid: 69266776a8fd88248b73f61cef3e4402,
+    type: 3}
+  <meleeAnimationIndex>k__BackingField: 0
+  <meleeAnimationLayerWeight>k__BackingField: 0
 --- !u!136 &4109228650484702135
 CapsuleCollider:
   m_ObjectHideFlags: 0
