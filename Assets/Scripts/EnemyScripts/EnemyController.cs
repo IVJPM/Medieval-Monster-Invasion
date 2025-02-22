@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -9,8 +11,8 @@ public class EnemyController : MonoBehaviour
 
     EnemyMovement enemyMovement;
     EnemyAttacks enemyAttacks;
-    GameObject playerTarget;
-
+    [SerializeField] GameObject playerTarget;
+    NavMeshAgent navMeshAgent;
 
     [SerializeField] float stateTransitionTimer;
     [SerializeField] float chaseTargetSpeed;
@@ -26,6 +28,7 @@ public class EnemyController : MonoBehaviour
     {
         enemyMovement = GetComponent<EnemyMovement>();
         enemyAttacks = GetComponent<EnemyAttacks>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
         playerTarget = GameObject.FindWithTag("Player");
     }
@@ -44,6 +47,10 @@ public class EnemyController : MonoBehaviour
         ChangeStates();
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
     private void ChangeStates()
     {
         switch (currentState)

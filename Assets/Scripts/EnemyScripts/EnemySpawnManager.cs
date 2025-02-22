@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemySpawnManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class EnemySpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnInterval);
         DontDestroyOnLoad(gameObject); //Will have to change this to either a singleton, or some other method of ensuring one of these is in each scene at a time
     }
@@ -32,6 +34,7 @@ public class EnemySpawnManager : MonoBehaviour
         0, Random.Range(playerTarget.position.z - randomeRangeZ, playerTarget.position.z + randomeRangeZ));
 
         Instantiate(enemyPrefabs[spawnIndex], spawnPosition, enemyPrefabs[spawnIndex].transform.rotation);
+
 
         for(int i = 0; i < spawnBoundaries.Count; i++)
         {
