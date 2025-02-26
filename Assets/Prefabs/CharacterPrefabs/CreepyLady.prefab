@@ -750,7 +750,7 @@ Transform:
   m_GameObject: {fileID: 2261300972040203481}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 1.753, z: 0.013}
+  m_LocalPosition: {x: 0, y: 1.753, z: 0.013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -805,7 +805,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 1
 --- !u!136 &-7229617696049257914
 CapsuleCollider:
@@ -845,7 +845,7 @@ MonoBehaviour:
   playerTarget: {fileID: 4132312772176831909, guid: 64b182395c0b6744a920c74bce3ece13,
     type: 3}
   stateTransitionTimer: 0
-  chaseTargetSpeed: 5
+  chaseTargetSpeed: 8
 --- !u!114 &6419529566066830954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -861,6 +861,7 @@ MonoBehaviour:
   chasingAnimation: {fileID: 1827226128182048838, guid: be72299949e1f2746ab50bb68b680104,
     type: 3}
   speed: 1.5
+  ground: {fileID: 0}
 --- !u!114 &3180966476202805376
 MonoBehaviour:
   m_ObjectHideFlags: 0

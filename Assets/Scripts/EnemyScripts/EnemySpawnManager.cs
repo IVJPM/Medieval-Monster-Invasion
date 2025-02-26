@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,7 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] float spawnDelay;
     [SerializeField] float spawnInterval;
 
+    Vector3 potentialSpawnPosition;
     Vector3 spawnPosition;
 
     // Start is called before the first frame update
@@ -32,20 +34,12 @@ public class EnemySpawnManager : MonoBehaviour
 
         spawnPosition = new Vector3(Random.Range(playerTarget.position.x - randomeRangeX, playerTarget.position.x + randomeRangeX),
         0, Random.Range(playerTarget.position.z - randomeRangeZ, playerTarget.position.z + randomeRangeZ));
-
-        Instantiate(enemyPrefabs[spawnIndex], spawnPosition, enemyPrefabs[spawnIndex].transform.rotation);
-
-
-        for(int i = 0; i < spawnBoundaries.Count; i++)
+ 
+        if(NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
         {
-            for(int j = 0; j < spawnIndex; j++)
-            {
-                if (Vector3.Distance(enemyPrefabs[spawnIndex].transform.position, playerTarget.transform.position) >= Vector3.Distance(spawnBoundaries[i].position, playerTarget.transform.position))
-                {
-                    Debug.LogWarning("Enemy Out Of Bounds");
-                    enemyPrefabs[i].transform.position = spawnBoundaries[i].position;
-                }
-            }
+            potentialSpawnPosition = hit.position;
         }
+
+        Instantiate(enemyPrefabs[spawnIndex], potentialSpawnPosition, enemyPrefabs[spawnIndex].transform.rotation);
     }
 }

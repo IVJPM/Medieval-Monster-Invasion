@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 1
   <indexID>k__BackingField: 1
-  <weaponDamage>k__BackingField: 7
+  <weaponDamage>k__BackingField: 0
   <weaponName>k__BackingField: 'Axe '
   activeWeaponTimer: 0
   meleeWeaponAnimation: {fileID: 0}

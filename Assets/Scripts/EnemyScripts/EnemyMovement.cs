@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    //GameObject playerTarget;
     Animator animator;
     AnimationClip currentAnimation;
     Rigidbody enemyRB;
@@ -14,33 +14,44 @@ public class EnemyMovement : MonoBehaviour
 
     [SerializeField] AnimationClip chasingAnimation;
     [SerializeField] float speed;
+    [SerializeField] NavMeshSurface ground;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //playerTarget = GameObject.FindWithTag("Player");
         animator = GetComponent<Animator>();
         enemyRB = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Debug.DrawLine(navMeshAgent.destination, new Vector3(navMeshAgent.destination.x, navMeshAgent.destination.y + 1f, navMeshAgent.destination.z), Color.red);
-        print(navMeshAgent.transform.position);
-
-        //ChasePlayerTarget();
     }
 
     public void ChasePlayerTarget(GameObject playerTarget, float chaseSpeedValue)
     {
+        //Setting the NavMesh acceleration to 50 and turning speed to 360 has somehow helped stop enemies at the right spot (mess around with speed later if desired)
+
         Vector3 newPosition = playerTarget.transform.position;
         newPosition.y = transform.position.y;
-        transform.LookAt(newPosition);
+
+        Quaternion enemyLookDirection;
+        Quaternion lookDirection = Quaternion.Euler(navMeshAgent.velocity);
+        //enemyLookDirection = Quaternion.LookRotation(enemyRB.velocity);
+        enemyLookDirection = Quaternion.RotateTowards(lookDirection, navMeshAgent.transform.rotation, 180);
+
+        enemyRB.MoveRotation(enemyLookDirection);
         navMeshAgent.speed = chaseSpeedValue;
         navMeshAgent.destination = (playerTarget.transform.position); 
-        //transform.position -= (transform.position - playerTarget.transform.position).normalized * chaseSpeedValue * Time.deltaTime;
+
+        RaycastHit hit;
+        Physics.Raycast(navMeshAgent.transform.position, navMeshAgent.transform.TransformDirection(Vector3.down), out hit, 1);
+       if(hit.collider != hit.collider.GetComponent<TerrainCollider>())
+        {
+            print("warping");
+            //navMeshAgent.Warp(ground.transform.position);
+        }
+       
     }
 
     public void SetEnemyMovementAnimation()
