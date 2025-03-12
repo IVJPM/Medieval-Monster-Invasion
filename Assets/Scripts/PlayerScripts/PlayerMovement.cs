@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, ILocomotion
@@ -13,6 +14,9 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
     [SerializeField] float leftRightRotation;
     [SerializeField] float upDownRotation;
     [SerializeField] Vector2 playerLookRotation;
+
+    [SerializeField] Transform shin;
+    [SerializeField] Transform feet;
     public Quaternion playerRotationAngles {  get; private set; }
     [SerializeField] float gravityModifier;
 
@@ -26,7 +30,14 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
 
     private Rigidbody playerRB;
     private Animator playerAnimator;
+    [SerializeField] LayerMask groundedMask;
+
+    RaycastHit groundedCastHit;
+    RaycastHit feetCastHit;
+
+
     private bool speedIsBoosted;
+    private bool isGrounded;
     public float powerUpTimer;
 
 
@@ -43,11 +54,27 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
     private void Update()
     {
         RetrievePlayerMovementInputs();
+        if (OnSlope() || !CheckIfGrounded())
+        {
+            playerRB.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
+        }
+        else if (!OnSlope() && CheckIfGrounded())
+        {
+            playerRB.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
+        }
+
+        if (!CheckIfGrounded())
+        {
+            playerRB.AddForce(Vector3.down * 1f, ForceMode.Impulse);
+        }
+        //CheckIfGrounded();
     }
 
     void FixedUpdate()
     {
+        CheckIfGrounded();
         //HandlePlayerMovement();
+
     }
 
     private void LateUpdate()
@@ -67,8 +94,30 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
         moveInput = new Vector3(horizontalInput, 0, verticalInput);
         moveInput.Normalize();
         moveInput.y = 0;
-        
-        playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
+
+
+        if(CheckIfGrounded())
+        {
+            playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
+        }
+
+        if(OnSlope())
+        {
+            playerRB.useGravity = false;
+            print("slope");
+            playerRB.velocity = GetClimbingDirection() * movementSpeed * Time.fixedDeltaTime;
+
+            if (playerRB.velocity.y > 1)
+            {
+                playerRB.AddForce(Vector3.down * 80f, ForceMode.Force);
+            }
+        }
+        else if(!OnSlope() && CheckIfGrounded())
+        {
+            print("no slope");
+            playerRB.useGravity = true;
+            playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
+        }
     }
 
     public void HandleRotation()
@@ -85,5 +134,32 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
         playerRotationAngles = Quaternion.Euler(upDownLookAngle, leftRightLookAngle, 0);
         playerRotationAngles.Normalize();
         playerRB.MoveRotation(playerRotationAngles);
+    }
+
+    private bool CheckIfGrounded()
+    {
+        if(Physics.SphereCast(shin.position, .2f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
+        //if(Physics.Raycast(shin.position, transform.TransformDirection(Vector3.down), out groundedCastHit, .35f, groundedMask))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool OnSlope()
+    {
+        if (Physics.SphereCast(shin.position, .2f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
+        //if (Physics.Raycast(playerRB.position, transform.TransformDirection(Vector3.down), out groundedCastHit, .35f))
+        {
+            float slopeAngle = Vector3.Angle(Vector3.up, groundedCastHit.normal);
+            //print(slopeAngle);
+            return slopeAngle < 55 && slopeAngle != 0;
+        }
+        return false;
+    }
+
+    private Vector3 GetClimbingDirection()
+    {
+        return Vector3.ProjectOnPlane(playerRB.velocity, groundedCastHit.normal).normalized;
     }
 }

@@ -26,8 +26,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterState locomotionState;
     [SerializeField] CharacterState deathState;
 
-
-
     // Move to different class once figured out how best to set up
     [SerializeField] Transform weaponSlot;
 
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //ChangePlayerState();
+        
     }
     void FixedUpdate()
     {
@@ -125,11 +123,11 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(locomotionState);
         }
-        else if (!isMoving && playerHealth.isAlive == true)
+        else if (!isMoving && !playerInputManager.attack && playerHealth.isAlive == true)
         {
             ChangeState(idleState);
         }
-        else
+        else if (playerHealth.isAlive == false)
         {
             ChangeState(deathState);
             gameOverText.GameOver();

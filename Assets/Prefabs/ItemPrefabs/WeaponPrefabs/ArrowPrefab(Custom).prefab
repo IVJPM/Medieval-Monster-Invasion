@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 0
   <indexID>k__BackingField: 0
-  <weaponDamage>k__BackingField: 5
+  <weaponDamage>k__BackingField: 100
   <weaponName>k__BackingField: 
 --- !u!1001 &1608851778941495286
 PrefabInstance:

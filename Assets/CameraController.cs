@@ -50,6 +50,6 @@ public class CameraController : MonoBehaviour
 
         transform.rotation = rotatePlayer;*/
         //transform.position = Vector3.SmoothDamp(transform.position, cameraPositionOffset.position, ref velocity, .1f);
-        transform.SetPositionAndRotation(Vector3.Lerp(transform.position, cameraPositionOffset.position, 100), cameraPositionOffset.rotation);
+        transform.SetPositionAndRotation(Vector3.Lerp(transform.position, cameraPositionOffset.position, 1f), cameraPositionOffset.rotation);
     }
 }

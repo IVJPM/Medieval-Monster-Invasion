@@ -5,11 +5,12 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float currentHealth, maxHealth;
+    [SerializeField] int defenseAmount;
     public EnemyHealthUI healthUI;
     public bool isAlive { get; private set; }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         maxHealth = healthUI.healthSlider.maxValue;
         currentHealth = maxHealth;
@@ -18,7 +19,10 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
+        damageAmount = damageAmount - defenseAmount;
         currentHealth -= damageAmount;
+
+        Debug.Log(damageAmount);
         if (currentHealth <= 0)
         {
             isAlive = false;

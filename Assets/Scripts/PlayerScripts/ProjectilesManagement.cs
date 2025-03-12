@@ -53,7 +53,7 @@ public class ProjectilesManagement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Enemy"))
+        if(other.gameObject.TryGetComponent(out EnemyController enemy))
         {
             Destroy(gameObject);
         }

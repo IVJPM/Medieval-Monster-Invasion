@@ -12,7 +12,6 @@ public class EquipPlayerWeapon : MonoBehaviour
     Animator playerAnimator;
     ShootBow shootBow;
     MeleeAttack meleeAttack;
-
     public bool canMeleeAttack { get; private set; }
     // Start is called before the first frame update
     void Start()

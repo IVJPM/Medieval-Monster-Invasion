@@ -23,7 +23,6 @@ public class EnemySpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         InvokeRepeating(nameof(SpawnEnemy), spawnDelay, spawnInterval);
         DontDestroyOnLoad(gameObject); //Will have to change this to either a singleton, or some other method of ensuring one of these is in each scene at a time
     }
@@ -38,8 +37,7 @@ public class EnemySpawnManager : MonoBehaviour
         if(NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
         {
             potentialSpawnPosition = hit.position;
+            Instantiate(enemyPrefabs[spawnIndex], potentialSpawnPosition, enemyPrefabs[spawnIndex].transform.rotation);
         }
-
-        Instantiate(enemyPrefabs[spawnIndex], potentialSpawnPosition, enemyPrefabs[spawnIndex].transform.rotation);
     }
 }

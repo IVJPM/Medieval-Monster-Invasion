@@ -29,7 +29,6 @@ public class ShootBow : MonoBehaviour, IWeapon
     private float drawBowStringTimer;
     GameObject arrow;
 
-
     Vector3 bowStringPos;
     Vector3 fireArrowStringPos;
     Vector3 arrowPosition;
@@ -98,7 +97,7 @@ public class ShootBow : MonoBehaviour, IWeapon
     }
 
     public void BowShot()
-    {                
+    { //Find a way to smoothly reset to 'Idle' animation once releasing arrow
         if(Input.GetMouseButtonUp(0))
         {
             OnBowShot?.Invoke(this, EventArgs.Empty);
