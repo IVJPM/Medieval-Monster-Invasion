@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
     RaycastHit groundedCastHit;
     RaycastHit feetCastHit;
 
-
     private bool speedIsBoosted;
     private bool isGrounded;
     public float powerUpTimer;
@@ -54,26 +53,26 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
     private void Update()
     {
         RetrievePlayerMovementInputs();
-        if (OnSlope() || !CheckIfGrounded())
+        CheckIfGrounded();
+
+        //CheckIfGrounded();
+    }
+
+    void FixedUpdate()
+    {
+        if (!CheckIfGrounded())
+        {
+            playerRB.AddForce(Vector3.down * 1f, ForceMode.Impulse);
+        }
+        /*if (OnSlope() || !CheckIfGrounded())
         {
             playerRB.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
         }
         else if (!OnSlope() && CheckIfGrounded())
         {
             playerRB.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        }
-
-        if (!CheckIfGrounded())
-        {
-            playerRB.AddForce(Vector3.down * 1f, ForceMode.Impulse);
-        }
-        //CheckIfGrounded();
-    }
-
-    void FixedUpdate()
-    {
-        CheckIfGrounded();
-        //HandlePlayerMovement();
+        }*/
+        //HandlePlayerMovement(400);
 
     }
 
@@ -95,8 +94,7 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
         moveInput.Normalize();
         moveInput.y = 0;
 
-
-        if(CheckIfGrounded())
+        if (CheckIfGrounded())
         {
             playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
         }
@@ -107,7 +105,7 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
             print("slope");
             playerRB.velocity = GetClimbingDirection() * movementSpeed * Time.fixedDeltaTime;
 
-            if (playerRB.velocity.y > 1)
+            if (playerRB.velocity.y > 0f)
             {
                 playerRB.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
@@ -153,7 +151,7 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
         {
             float slopeAngle = Vector3.Angle(Vector3.up, groundedCastHit.normal);
             //print(slopeAngle);
-            return slopeAngle < 55 && slopeAngle != 0;
+            return slopeAngle < 55 ;
         }
         return false;
     }

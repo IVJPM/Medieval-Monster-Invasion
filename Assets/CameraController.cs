@@ -49,7 +49,10 @@ public class CameraController : MonoBehaviour
         Quaternion rotatePlayer = Quaternion.Slerp(transform.rotation, playerRotationAngles, 900);
 
         transform.rotation = rotatePlayer;*/
-        //transform.position = Vector3.SmoothDamp(transform.position, cameraPositionOffset.position, ref velocity, .1f);
-        transform.SetPositionAndRotation(Vector3.Lerp(transform.position, cameraPositionOffset.position, 1f), cameraPositionOffset.rotation);
+        //transform.position = Vector3.SmoothDamp(transform.position, cameraPositionOffset.position, ref velocity, .01f);
+        //transform.rotation = cameraPositionOffset.rotation;
+        transform.SetPositionAndRotation(Vector3.Lerp(transform.position, cameraPositionOffset.position, 100f), cameraPositionOffset.rotation);
+        //transform.position = Vector3.Lerp(transform.position, cameraPositionOffset.position, .1f);
+        //transform.rotation = cameraPositionOffset.rotation;
     }
 }

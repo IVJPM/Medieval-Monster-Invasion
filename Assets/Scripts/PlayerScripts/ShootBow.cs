@@ -34,11 +34,13 @@ public class ShootBow : MonoBehaviour, IWeapon
     Vector3 arrowPosition;
     private Animator playerAnimator;
     private AudioSource playerAudioSource;
+    private PlayerHealth playerHealth;
 
     void Awake()
     {
         playerAnimator = GetComponentInChildren<Animator>();
         playerAudioSource = GetComponent<AudioSource>();
+        playerHealth = GetComponentInParent<PlayerHealth>();
 
         bowStringPos = bowString.transform.localPosition;
         fireArrowStringPos = rightHandPos.localPosition;
@@ -53,7 +55,7 @@ public class ShootBow : MonoBehaviour, IWeapon
 
     void Update()
     {
-        if(bowString.activeInHierarchy)
+        if(bowString.activeInHierarchy && playerHealth.isAlive)
         {
             PlayerAttack();
         }
