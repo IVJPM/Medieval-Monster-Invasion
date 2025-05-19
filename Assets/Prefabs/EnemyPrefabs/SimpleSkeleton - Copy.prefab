@@ -647,7 +647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   maxHealth: 0
-  defenseAmount: 8
+  defenseAmount: 0
   healthUI: {fileID: 4409533611801788751}
 --- !u!195 &6095454744068544576
 NavMeshAgent:

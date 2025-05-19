@@ -8,7 +8,6 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [Header("Lists")]
     [SerializeField] List<GameObject> enemyPrefabs = new List<GameObject>();
-    [SerializeField] List<Transform> spawnBoundaries = new List<Transform>();
 
     [SerializeField] Transform playerTarget;
     [SerializeField] int spawnIndex;

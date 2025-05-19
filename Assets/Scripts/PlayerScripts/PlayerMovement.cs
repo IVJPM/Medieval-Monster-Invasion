@@ -53,32 +53,24 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
     private void Update()
     {
         RetrievePlayerMovementInputs();
-        CheckIfGrounded();
-
         //CheckIfGrounded();
     }
 
     void FixedUpdate()
     {
+        CheckIfGrounded();
         if (!CheckIfGrounded())
         {
-            playerRB.AddForce(Vector3.down * 1f, ForceMode.Impulse);
+            playerRB.AddForce(Vector3.down * 3f, ForceMode.Impulse);
         }
-        /*if (OnSlope() || !CheckIfGrounded())
-        {
-            playerRB.constraints = RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        }
-        else if (!OnSlope() && CheckIfGrounded())
-        {
-            playerRB.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationX;
-        }*/
         //HandlePlayerMovement(400);
-
     }
 
     private void LateUpdate()
     {
-        HandleRotation();
+        if (Time.timeScale == 1)
+
+            HandleRotation();
     }
 
     private void RetrievePlayerMovementInputs()
@@ -96,25 +88,23 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
 
         if (CheckIfGrounded())
         {
-            playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
+            playerRB.linearVelocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
         }
 
         if(OnSlope())
         {
             playerRB.useGravity = false;
-            print("slope");
-            playerRB.velocity = GetClimbingDirection() * movementSpeed * Time.fixedDeltaTime;
+            playerRB.linearVelocity = GetClimbingDirection() * movementSpeed * Time.fixedDeltaTime;
 
-            if (playerRB.velocity.y > 0f)
+            if (playerRB.linearVelocity.y > 0f)
             {
                 playerRB.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
         }
         else if(!OnSlope() && CheckIfGrounded())
         {
-            print("no slope");
             playerRB.useGravity = true;
-            playerRB.velocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
+            playerRB.linearVelocity = (playerRotationAngles * moveInput) * movementSpeed * Time.fixedDeltaTime;
         }
     }
 
@@ -136,8 +126,7 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
 
     private bool CheckIfGrounded()
     {
-        if(Physics.SphereCast(shin.position, .2f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
-        //if(Physics.Raycast(shin.position, transform.TransformDirection(Vector3.down), out groundedCastHit, .35f, groundedMask))
+        if(Physics.SphereCast(shin.position, .225f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
         {
             return true;
         }
@@ -146,11 +135,9 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
 
     private bool OnSlope()
     {
-        if (Physics.SphereCast(shin.position, .2f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
-        //if (Physics.Raycast(playerRB.position, transform.TransformDirection(Vector3.down), out groundedCastHit, .35f))
+        if (Physics.SphereCast(shin.position, .225f, transform.TransformDirection(Vector3.down), out groundedCastHit, .15f, groundedMask))
         {
             float slopeAngle = Vector3.Angle(Vector3.up, groundedCastHit.normal);
-            //print(slopeAngle);
             return slopeAngle < 55 ;
         }
         return false;
@@ -158,6 +145,6 @@ public class PlayerMovement : MonoBehaviour, ILocomotion
 
     private Vector3 GetClimbingDirection()
     {
-        return Vector3.ProjectOnPlane(playerRB.velocity, groundedCastHit.normal).normalized;
+        return Vector3.ProjectOnPlane(playerRB.linearVelocity, groundedCastHit.normal).normalized;
     }
 }

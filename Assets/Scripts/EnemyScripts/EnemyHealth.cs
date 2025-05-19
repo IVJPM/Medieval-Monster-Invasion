@@ -15,6 +15,10 @@ public class EnemyHealth : MonoBehaviour
         maxHealth = healthUI.healthSlider.maxValue;
         currentHealth = maxHealth;
         isAlive = true;
+        if(ScoreTracker.scoreCount > 10)
+        {
+            defenseAmount += 20;
+        }    
     }
 
     public void TakeDamage(int damageAmount)
